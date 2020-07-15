@@ -1,18 +1,8 @@
 <template>
     <form class="card">
         <div class="card-content">
-            <span class="card-title center">Sign-Up</span>
-            <span class="center">New to CrossProm?</span>
+            <span class="card-title center">Login</span>
             <div class="line"></div>
-            <span class="center">Create an account! It won't take long.</span>
-            <div class="input-field">
-                <input
-                    class="validate"
-                    id="name"
-                    placeholder="Enter your name"
-                    type="text"
-                >
-            </div>
             <div class="input-field">
                 <input
                     class="validate"
@@ -32,6 +22,8 @@
                 >
                 <br>
                 <small class="helper-text invalid">Password</small>
+                <br>
+                <small class="forgot-password">Forgot password?</small>
             </div>
         </div>
         <div class="card-action">
@@ -40,14 +32,12 @@
                     class="auth-submit"
                     type="submit"
                 >
-                    Sign Up
+                    Login
                 </button>
             </div>
-            <br>
             <span>By clicking Sign Up you accept Terms and Conditions</span>
-            <br>
             <p class="center">
-                <a href="/">Already have an account?</a>
+                <a href="/"> Create new Account</a>
             </p>
         </div>
     </form>
