@@ -21,6 +21,12 @@ const routes = [
     name: 'Login',
     meta: { layout: 'empty' },
     component: () => import('../views/Login'),
+  },
+  {
+    path: '/campaigns',
+    name: 'Campaigns',
+    meta: { layout: 'main' },
+    component: () => import('../views/Campaigns'),
   }
 ];
 

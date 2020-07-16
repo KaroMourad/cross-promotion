@@ -8,6 +8,6 @@
     .main-layout {
         width: 100vw;
         height: 100vh;
-        background: grey;
+        background: #E5E5E5;
     }
 </style>

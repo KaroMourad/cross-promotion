@@ -12,14 +12,14 @@
                 >
                 <!--            <small class="helper-text invalid">Email</small>-->
             </div>
-            <div class="input-field" v-bind:style="{position: 'relative'}">
+            <div :style="{position: 'relative'}" class="input-field">
                 <input
+                    :type="[toggleShowPassword ? 'text' : 'password']"
                     class="validate"
                     id="password"
                     placeholder="Enter your password"
-                    type="password"
                 >
-                <img class="eye" src="../assets/eye.png"/>
+                <img @click="toggleShowPassword = !toggleShowPassword" class="eye" src="../assets/eye.png"/>
                 <!--            <small class="helper-text invalid">Password</small>-->
             </div>
         </div>
@@ -28,22 +28,38 @@
                 <a href="/forgot-password">Forgot password?</a>
             </p>
             <div>
-                <button
-                    class="auth-submit"
-                    type="submit"
+                <Button
+                    @onClick="onSubmitHandler"
+                    btnClass="auth-submit"
+                    btnType="submit"
                 >
                     Log in
-                </button>
+                </Button>
             </div>
             <p class="text newAccount">
-                <a href="/signUp">Create new account</a>
+                <a href="/signUp">Create new Account</a>
             </p>
         </div>
     </form>
 </template>
 
 <script>
+  import Button from '../components/Button';
 
+  export default {
+    name: 'login',
+    components: {
+      Button
+    },
+    data: () => ({
+      toggleShowPassword: false
+    }),
+    methods: {
+      onSubmitHandler(e) {
+        console.log('login submit', e);
+      }
+    }
+  };
 </script>
 
 <style lang="scss" scoped>
