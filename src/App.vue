@@ -1,29 +1,59 @@
 <template>
     <div id="app">
         <div id="nav">
-            <router-link to="/">Home</router-link>
-            <router-link to="/signUp">Sign Up</router-link>
-            <router-link to="/login">Login</router-link>
+            <component :is="layout">
+                <router-view/>
+            </component>
         </div>
-        <router-view/>
     </div>
 </template>
 
+<script>
+  import EmptyLayout from './layouts/EmptyLayout';
+
+  export default {
+    computed: {
+      layout() {
+        console.log(this.$route.meta);
+        return `${this.$route.meta.layout || 'empty'}-layout`;
+      }
+    },
+    components: {
+      EmptyLayout
+    }
+  };
+</script>
+
+
 <style lang="scss">
+    * {
+        box-sizing: border-box;
+    }
+
+    body {
+        margin: 0;
+        padding: 0;
+        height: 100vh;
+        width: 100vw;
+    }
+
     #app {
         font-family: Avenir, Helvetica, Arial, sans-serif;
         -webkit-font-smoothing: antialiased;
         -moz-osx-font-smoothing: grayscale;
         text-align: center;
         color: #2c3e50;
+        width: 100%;
+        height: 100%;
     }
 
     #nav {
-        padding: 30px;
+        width: 100%;
+        height: 100%;
 
         a {
-            font-weight: bold;
-            color: #2c3e50;
+            text-decoration: none;
+            color: #727CF5;
 
             &.router-link-exact-active {
                 color: #42b983;

@@ -37,7 +37,7 @@
             </div>
             <span>By clicking Sign Up you accept Terms and Conditions</span>
             <p class="center">
-                <a href="/"> Create new Account</a>
+                <a href="/signUp"> Create new Account</a>
             </p>
         </div>
     </form>

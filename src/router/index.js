@@ -13,11 +13,13 @@ const routes = [
   {
     path: '/signUp',
     name: 'SignUp',
+    meta: { layout: 'empty' },
     component: () => import('../views/SignUp'),
   },
   {
     path: '/login',
     name: 'Login',
+    meta: { layout: 'empty' },
     component: () => import('../views/Login'),
   }
 ];
