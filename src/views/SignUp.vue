@@ -29,7 +29,7 @@
                     placeholder="Enter your password"
                     type="password"
                 >
-                <img class="eye" src="../assets/achq.png"/>
+                <img class="eye" src="../assets/eye.png"/>
                 <!--            <small class="helper-text invalid">Password</small>-->
             </div>
         </div>
@@ -42,10 +42,11 @@
                     Sign Up
                 </button>
             </div>
-            <p class="text greyText info">By clicking Sign Up you accept <span
-                class="purpleText">Terms and Conditions</span>
+            <p class="text greyText termsConditions">
+                By clicking Sign Up you accept
+                <span class="purpleText">Terms and Conditions</span>
             </p>
-            <p class="text info" v-bind:style="{ marginTop: 40+'px' }">
+            <p class="text haveAccount">
                 <a href="/login">Already have an account?</a>
             </p>
         </div>
@@ -56,17 +57,22 @@
 
 </script>
 
-<style lang="scss" scoped>
+<style lang="scss">
+    html .termsConditions {
+        text-align: left;
+        font-size: 13px;
+    }
+
+    html .haveAccount {
+        margin-top: 40px;
+        font-size: 13px;
+    }
+
     .eye {
         position: absolute;
         top: 50%;
         right: 10px;
         transform: translateY(-50%);
-    }
-
-    html .info {
-        font-size: 13px;
-        text-align: left;
     }
 
     html .purpleText {
@@ -118,14 +124,10 @@
             opacity: 1;
         }
 
-        input:after {
-            content: " ";
-            background-image: url("../assets/achq.png");
-        }
-
         input::placeholder {
             color: #9B9B9B;
             opacity: 0.8;
+            font-size: 13px;
         }
     }
 
@@ -133,7 +135,7 @@
         background: #D6DDE3;
         width: 100%;
         height: 1px;
-        margin: 10px 0;
+        margin: 20px 0;
         display: inline-block;
     }
 
@@ -155,6 +157,7 @@
     }
 
     .text {
+        margin: 10px 0;
         display: inline-block;
         font-style: normal;
         font-weight: normal;
@@ -169,7 +172,7 @@
     }
 
     .card-title {
-        margin: 0;
+        margin: 10px 0;
         font-style: normal;
         font-weight: bold;
         font-size: 19px;
