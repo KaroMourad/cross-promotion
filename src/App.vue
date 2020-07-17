@@ -9,20 +9,21 @@
 </template>
 
 <script>
-  import EmptyLayout from './layouts/EmptyLayout';
-  import MainLayout from './layouts/MainLayout';
+    import EmptyLayout from './layouts/EmptyLayout';
+    import MainLayout from './layouts/MainLayout';
 
-  export default {
-    computed: {
-      layout() {
-        return `${this.$route.meta.layout || 'empty'}-layout`;
-      }
-    },
-    components: {
-      EmptyLayout,
-      MainLayout
-    }
-  };
+    export default {
+        computed: {
+            layout()
+            {
+                return `${this.$route.meta.layout || 'empty'}-layout`;
+            }
+        },
+        components: {
+            EmptyLayout,
+            MainLayout
+        }
+    };
 </script>
 
 

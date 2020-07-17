@@ -1,5 +1,5 @@
 <template>
-    <form class="card self-center">
+    <form @submit.prevent="onSubmitHandler" class="card self-center">
         <div class="card-content">
             <p class="card-title">Sign Up</p>
             <p class="text greyText">New to CrossProm?</p>
@@ -7,73 +7,166 @@
             <p class="text greyText">Create an account! It won't take long.</p>
             <div class="input-field">
                 <input
-                    class="validate"
+                    :class="{invalidInput: $v.name.$dirty && !$v.name.required}"
                     id="name"
                     placeholder="Enter your name"
                     type="text"
+                    v-model.trim="name"
                 >
+                <small
+                    class="error invalid"
+                    v-if="$v.name.$dirty && !$v.name.required"
+                >
+                    Enter Name!
+                </small>
             </div>
             <div class="input-field">
                 <input
-                    class="validate"
+                    :class="{invalidInput: ($v.email.$dirty && !$v.email.required) || ($v.email.$dirty && !$v.email.email)}"
                     id="email"
                     placeholder="Enter your email"
                     type="text"
+                    v-model.trim="email"
                 >
-                <!--            <small class="helper-text invalid">Email</small>-->
+                <small
+                    class="error invalid"
+                    v-if="$v.email.$dirty && !$v.email.required"
+                >
+                    Enter Email Address!
+                </small>
+                <small
+                    class="error invalid"
+                    v-else-if="$v.email.$dirty && !$v.email.email"
+                >
+                    Invalid Email!
+                </small>
             </div>
-            <div :style="{position: 'relative'}" class="input-field">
+            <div class="input-field">
                 <input
+                    :class="{invalidInput: ($v.password.$dirty && !$v.password.required) || ($v.password.$dirty && !$v.password.minLength)}"
                     :type="[toggleShowPassword ? 'text' : 'password']"
-                    class="validate"
                     id="password"
                     placeholder="Enter your password"
+                    v-model.trim="password"
                 >
                 <img @click="toggleShowPassword = !toggleShowPassword" class="eye" src="../assets/eye.png"/>
-                <!--            <small class="helper-text invalid">Password</small>-->
+                <small
+                    class="error invalid"
+                    v-if="$v.password.$dirty && !$v.password.required"
+                >
+                    Enter Password!
+                </small>
+                <small
+                    class="error invalid"
+                    v-else-if="$v.password.$dirty && !$v.password.minLength"
+                >
+                    Minimum length must be {{$v.password.$params.minLength.min}} symbol! Now length is
+                    {{password.length}}
+                </small>
             </div>
         </div>
         <div class="card-action">
-            <div>
-                <Button
-                    @onClick="onSubmitHandler"
-                    btnClass="auth-submit"
-                    btnType="submit"
-                >
-                    Sign Up
-                </Button>
-            </div>
+            <Button
+                btnClass="auth-submit"
+                btnType="submit"
+            >
+                Sign Up
+            </Button>
             <p class="text greyText termsConditions">
                 By clicking Sign Up you accept
                 <span class="purpleText">Terms and Conditions</span>
             </p>
             <p class="text haveAccount">
-                <a href="/login">Already have an account?</a>
+                <router-link to="/login">Already have an account?</router-link>
             </p>
         </div>
     </form>
 </template>
 
 <script>
-  import Button from '../components/Button';
+    import Button from '../components/Button';
+    import {email, minLength, required} from 'vuelidate/lib/validators';
 
-  export default {
-    name: 'signUp',
-    components: {
-      Button
-    },
-    data: () => ({
-      toggleShowPassword: false
-    }),
-    methods: {
-      onSubmitHandler(e) {
-        console.log('signUp submit', e);
-      }
-    }
-  };
+    export default {
+        name: 'signUp',
+        components: {
+            Button
+        },
+        data: () => ({
+            toggleShowPassword: false,
+            email: '',
+            password: '',
+            name: '',
+        }),
+        validations: {
+            email: {
+                email,
+                required
+            },
+            password: {
+                required,
+                minLength: minLength(6)
+            },
+            name: {
+                required
+            }
+        },
+        methods: {
+            async onSubmitHandler()
+            {
+                if (this.$v.$invalid)
+                {
+                    this.$v.$touch();
+                    return;
+                }
+
+                const formData = {
+                    email: this.email,
+                    password: this.password,
+                    name: this.name
+                };
+
+                try
+                {
+                    await this.$store.dispatch('signUp', formData);
+                    this.$router.push('/campaigns');
+                } catch (err)
+                {
+                    console.log('err', err);
+                }
+            }
+        },
+    };
 </script>
 
 <style lang="scss">
+
+    .invalid {
+        color: red;
+        display: block;
+        text-align: left;
+        padding: 4px 10px;
+    }
+
+    html .invalidInput, html .invalidInput:focus {
+        border: 1px solid red !important;
+        outline: none;
+    }
+
+    .error {
+        position: absolute;
+        background: white;
+        right: 20px;
+        border: 1px solid red;
+        border-radius: 5px;
+        top: -11px;
+        font-size: 11px;
+    }
+
+    .hidden {
+        display: none;
+    }
+
     html .termsConditions {
         text-align: left;
         font-size: 13px;
@@ -93,10 +186,6 @@
 
     html .purpleText {
         color: #727CF5;
-    }
-
-    .invalid {
-        color: red;
     }
 
     .auth-submit {
@@ -123,6 +212,7 @@
         width: 100%;
         margin: 10px 0;
         display: inline-block;
+        position: relative;
 
         input {
             border: 1px solid #C7C4C4;
@@ -136,7 +226,7 @@
             line-height: 19px;
             letter-spacing: 0.056px;
             color: black;
-            padding: 16px;
+            padding: 16px 16px 12px 16px;
             opacity: 1;
         }
 

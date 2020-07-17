@@ -1,16 +1,18 @@
 <template>
     <div class="campaign">
-        <img :src="data.image"/>
+        <img v-bind:src="require(`@/${data.imageUrl}`)"/>
     </div>
 </template>
 
 <script>
-  export default {
-    name: 'Campaign',
-    props: {
-      data: {}
-    }
-  };
+    export default {
+        name: 'Campaign',
+        props: {
+            data: {
+                imageUrl: String
+            }
+        }
+    };
 </script>
 
 <style>

@@ -14,31 +14,50 @@
                 Logout
             </Button>
         </div>
-        <div :key="campaign.id" class="campaigns" v-for="campaign in campaigns">
-            <Campaign :data="campaign"/>
+        <div class="campaigns">
+            <Campaign :key="campaign.id" v-bind:data="campaign" v-for="campaign in campaigns"/>
         </div>
     </div>
 </template>
 
 <script>
-  import Button from '../components/Button';
-  import Campaign from '../components/Campaign';
+    import Button from '../components/Button';
+    import Campaign from '../components/Campaign';
 
-  export default {
-    name: 'Campaigns',
-    components: {
-      Button,
-      Campaign
-    },
-    methods: {
-      onCreateHandler(e) {
-        console.log('create campaign', e);
-      },
-      onLogoutHandler(e) {
-        console.log('logout', e);
-      },
-    }
-  };
+    export default {
+        name: 'Campaigns',
+        components: {
+            Button,
+            Campaign
+        },
+        data: () => ({
+            campaigns: [
+                {
+                    id: 1,
+                    imageUrl: 'assets/image.png',
+                    backers: 29441,
+                    title: 'Varram'
+                },
+                {
+                    id: 2,
+                    imageUrl: 'assets/Bristly_Backbone-Branding_2.png',
+                    backers: 29441,
+                    title: 'Bristly'
+                }
+            ]
+        }),
+        methods: {
+            onCreateHandler(e)
+            {
+                console.log('create campaign', e);
+            },
+            async onLogoutHandler()
+            {
+                await this.$store.dispatch('logout');
+                this.$router.push('/login?message=logout');
+            },
+        }
+    };
 </script>
 
 <style lang="scss" scoped>
