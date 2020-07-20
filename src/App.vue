@@ -19,17 +19,6 @@
                 return `${this.$route.meta.layout || 'empty'}-layout`;
             }
         },
-        /*
-        ,
-        async mounted()
-        {
-            const user = await this.$store.dispatch('getUid');
-            if (user)
-            {
-                this.$router.push('/campaigns');
-            }
-        }
-        */
         components: {
             EmptyLayout,
             MainLayout
@@ -54,8 +43,8 @@
     body {
         margin: 0;
         padding: 0;
-        height: 100vh;
-        width: 100vw;
+        height: 100%;
+        width: 100%;
     }
 
     #app {
@@ -101,27 +90,27 @@
             margin: 20px 0;
             display: inline-block;
         }
-    }
 
-    .error {
-        position: absolute;
-        background: white;
-        right: 20px;
-        border: 1px solid red;
-        border-radius: 5px;
-        top: -11px;
-        font-size: 11px;
-    }
+        .error {
+            position: absolute;
+            background: white;
+            right: 20px;
+            border: 1px solid red;
+            border-radius: 5px;
+            top: -11px;
+            font-size: 11px;
+        }
 
-    .invalid {
-        color: red;
-        display: block;
-        text-align: left;
-        padding: 4px 10px;
-    }
+        .invalid {
+            color: red;
+            display: block;
+            text-align: left;
+            padding: 4px 10px;
+        }
 
-    .invalidInput, .invalidInput:focus {
-        border: 1px solid red;
-        outline: none;
+        .invalidInput, .invalidInput:focus {
+            border: 1px solid red !important;
+            outline: none !important;
+        }
     }
 </style>

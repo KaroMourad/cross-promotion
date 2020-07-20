@@ -18,7 +18,12 @@
         <div class="campaignsContainer">
             <Loader v-if="loading"/>
             <div class="campaigns" v-else>
-                <Campaign :key="campaign.id" v-bind:data="campaign" v-for="campaign in campaigns"/>
+                <Campaign
+                    :key="campaign.id"
+                    :onDelete="onDeleteCampaignHandler"
+                    v-bind:data="campaign"
+                    v-for="campaign in this.campaigns"
+                />
             </div>
         </div>
     </div>
@@ -40,30 +45,34 @@
         }),
         async mounted()
         {
-            // this.campaigns = await this.$store.dispatch('fetchCampaigns');
+            this.campaigns = await this.$store.dispatch('fetchCampaigns');
             this.loading = false;
         },
         methods: {
+            onDeleteCampaignHandler(id)
+            {
+                this.campaigns = this.campaigns.filter(campaign => campaign.id !== id)
+            },
             onCreateHandler(e)
             {
-                console.log('create campaign', e);
                 this.$router.push('/create-campaign');
             },
             async onLogoutHandler()
             {
                 await this.$store.dispatch('logout');
-                this.$router.push('/login?message=logout');
+                this.$router.push('/login');
             },
         }
     };
 </script>
 
-<style scoped>
+<style lang="scss" scoped>
     .main {
         width: 100%;
         height: 100%;
-        padding: 40px;
+        padding: 20px;
         text-align: left;
+        min-height: 100vh;
     }
 
     .campaignsContainer {
@@ -73,14 +82,14 @@
 
     .actions {
         text-align: right;
-    }
 
-    .createButton {
-        width: 150px;
-    }
+        .createButton {
+            width: 150px;
+        }
 
-    .logoutButton {
-        width: 150px;
-        color: var(--main-color);
+        .logoutButton {
+            width: 150px;
+            color: var(--main-color);
+        }
     }
 </style>

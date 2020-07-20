@@ -1,5 +1,6 @@
 import Vue from 'vue';
 import VueRouter from 'vue-router';
+import firebase from "firebase/app";
 
 Vue.use(VueRouter);
 
@@ -7,7 +8,7 @@ const routes = [
     {
         exact: true,
         path: '/',
-        redirect: '/signUp'
+        redirect: '/login'
     },
     {
         path: '/signUp',
@@ -24,13 +25,13 @@ const routes = [
     {
         path: '/campaigns',
         name: 'Campaigns',
-        meta: {layout: 'main'},
+        meta: {layout: 'main', requiresAuth: true},
         component: () => import('../views/Campaigns'),
     },
     {
         path: '/create-campaign',
         name: 'create-campaign',
-        meta: {layout: 'empty'},
+        meta: {layout: 'empty', requiresAuth: true},
         component: () => import('../views/CreateCampaign'),
     }
 ];
@@ -40,5 +41,15 @@ const router = new VueRouter({
     base: process.env.BASE_URL,
     routes,
 });
+
+router.beforeEach((to, from, next) =>
+{
+    const currentUser = firebase.auth().currentUser;
+    const requiresAuth = to.matched.some(record => record.meta.requiresAuth);
+
+    if (requiresAuth && !currentUser) next('login');
+    else if (!requiresAuth && currentUser) next('campaigns');
+    else next();
+})
 
 export default router;

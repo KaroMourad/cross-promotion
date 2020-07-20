@@ -1,16 +1,8 @@
 <template>
-    <div class="loaderContainer">
-        <div class="loader self-center"/>
-    </div>
+    <div class="loader self-center"/>
 </template>
 
 <style scoped>
-    .loaderContainer {
-        position: relative;
-        width: 100%;
-        height: 100%;
-    }
-
     .loader {
         border-top: 4px solid blue;
         border-right: 4px solid green;

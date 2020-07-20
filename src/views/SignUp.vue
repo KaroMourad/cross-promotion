@@ -1,97 +1,99 @@
 <template>
-    <form @submit.prevent="onSubmitHandler" class="card self-center">
-        <div class="card-content">
-            <p class="card-title">Sign Up</p>
-            <p class="text greyText">New to CrossProm?</p>
-            <div class="line"/>
-            <p class="text greyText">Create an account! It won't take long.</p>
-            <div class="input-field">
-                <input
-                    :class="{invalidInput: $v.name.$dirty && !$v.name.required}"
-                    id="name"
-                    placeholder="Enter your name"
-                    type="text"
-                    v-model.trim="name"
-                >
-                <small
-                    class="error invalid"
-                    v-if="$v.name.$dirty && !$v.name.required"
-                >
-                    Enter Name!
-                </small>
+    <div class="signUpContainer">
+        <form @submit.prevent="onSubmitHandler" class="card self-center">
+            <div class="card-content">
+                <p class="card-title">Sign Up</p>
+                <p class="text greyText">New to CrossProm?</p>
+                <div class="line"/>
+                <p class="text greyText">Create an account! It won't take long.</p>
+                <div class="input-field">
+                    <input
+                        :class="{invalidInput: $v.name.$dirty && !$v.name.required}"
+                        id="name"
+                        placeholder="Enter your name"
+                        type="text"
+                        v-model.trim="name"
+                    >
+                    <small
+                        class="error invalid"
+                        v-if="$v.name.$dirty && !$v.name.required"
+                    >
+                        Enter Name!
+                    </small>
+                </div>
+                <div class="input-field">
+                    <input
+                        :class="{invalidInput: ($v.email.$dirty && !$v.email.required) || ($v.email.$dirty && !$v.email.email)}"
+                        id="email"
+                        placeholder="Enter your email"
+                        type="text"
+                        v-model.trim="email"
+                    >
+                    <small
+                        class="error invalid"
+                        v-if="$v.email.$dirty && !$v.email.required"
+                    >
+                        Enter Email Address!
+                    </small>
+                    <small
+                        class="error invalid"
+                        v-else-if="$v.email.$dirty && !$v.email.email"
+                    >
+                        Invalid Email!
+                    </small>
+                </div>
+                <div class="input-field">
+                    <input
+                        :class="{invalidInput: ($v.password.$dirty && !$v.password.required) || ($v.password.$dirty && !$v.password.minLength)}"
+                        :type="[toggleShowPassword ? 'text' : 'password']"
+                        id="password"
+                        placeholder="Enter your password"
+                        v-model.trim="password"
+                    >
+                    <img @mousedown="() => toggleShowPasswordHandler('down')"
+                         @mouseup="() => toggleShowPasswordHandler('up')"
+                         class="eye"
+                         src="../assets/eye.png"
+                         v-if="toggleShowPassword"
+                    />
+                    <img @mousedown="() => toggleShowPasswordHandler('down')"
+                         @mouseup="() => toggleShowPasswordHandler('up')"
+                         class="eye"
+                         src="../assets/eye-close.png"
+                         v-else
+                    />
+                    <small
+                        class="error invalid"
+                        v-if="$v.password.$dirty && !$v.password.required"
+                    >
+                        Enter Password!
+                    </small>
+                    <small
+                        class="error invalid"
+                        v-else-if="$v.password.$dirty && !$v.password.minLength"
+                    >
+                        Minimum length must be {{$v.password.$params.minLength.min}} symbol! Now length is
+                        {{password.length}}
+                    </small>
+                </div>
             </div>
-            <div class="input-field">
-                <input
-                    :class="{invalidInput: ($v.email.$dirty && !$v.email.required) || ($v.email.$dirty && !$v.email.email)}"
-                    id="email"
-                    placeholder="Enter your email"
-                    type="text"
-                    v-model.trim="email"
+            <div class="card-action">
+                <Button
+                    btnClass="auth-submit"
+                    btnType="submit"
                 >
-                <small
-                    class="error invalid"
-                    v-if="$v.email.$dirty && !$v.email.required"
-                >
-                    Enter Email Address!
-                </small>
-                <small
-                    class="error invalid"
-                    v-else-if="$v.email.$dirty && !$v.email.email"
-                >
-                    Invalid Email!
-                </small>
+                    Sign Up
+                </Button>
+                <p class="text greyText termsConditions">
+                    By clicking Sign Up you accept
+                    <span class="purpleText">Terms and Conditions</span>
+                </p>
+                <p class="text haveAccount">
+                    <router-link to="/login">Already have an account?</router-link>
+                </p>
             </div>
-            <div class="input-field">
-                <input
-                    :class="{invalidInput: ($v.password.$dirty && !$v.password.required) || ($v.password.$dirty && !$v.password.minLength)}"
-                    :type="[toggleShowPassword ? 'text' : 'password']"
-                    id="password"
-                    placeholder="Enter your password"
-                    v-model.trim="password"
-                >
-                <img @mousedown="() => toggleShowPasswordHandler('down')"
-                     @mouseup="() => toggleShowPasswordHandler('up')"
-                     class="eye"
-                     src="../assets/eye.png"
-                     v-if="toggleShowPassword"
-                />
-                <img @mousedown="() => toggleShowPasswordHandler('down')"
-                     @mouseup="() => toggleShowPasswordHandler('up')"
-                     class="eye"
-                     src="../assets/eye-close.png"
-                     v-else
-                />
-                <small
-                    class="error invalid"
-                    v-if="$v.password.$dirty && !$v.password.required"
-                >
-                    Enter Password!
-                </small>
-                <small
-                    class="error invalid"
-                    v-else-if="$v.password.$dirty && !$v.password.minLength"
-                >
-                    Minimum length must be {{$v.password.$params.minLength.min}} symbol! Now length is
-                    {{password.length}}
-                </small>
-            </div>
-        </div>
-        <div class="card-action">
-            <Button
-                btnClass="auth-submit"
-                btnType="submit"
-            >
-                Sign Up
-            </Button>
-            <p class="text greyText termsConditions">
-                By clicking Sign Up you accept
-                <span class="purpleText">Terms and Conditions</span>
-            </p>
-            <p class="text haveAccount">
-                <router-link to="/login">Already have an account?</router-link>
-            </p>
-        </div>
-    </form>
+        </form>
+    </div>
 </template>
 
 <script>
@@ -156,18 +158,13 @@
 
 <style lang="scss">
 
-    .invalid {
-        color: red;
-        display: block;
-        text-align: left;
-        padding: 4px 10px;
+    .signUpContainer {
+        position: relative;
+        width: 100%;
+        height: 100%;
     }
 
     html {
-        .invalidInput, .invalidInput:focus {
-            border: 1px solid red;
-            outline: none;
-        }
 
         .termsConditions {
             text-align: left;
@@ -184,15 +181,6 @@
         }
     }
 
-    .error {
-        position: absolute;
-        background: white;
-        right: 20px;
-        border: 1px solid red;
-        border-radius: 5px;
-        top: -11px;
-        font-size: 11px;
-    }
 
     .hidden {
         display: none;

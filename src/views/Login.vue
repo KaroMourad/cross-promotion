@@ -1,79 +1,81 @@
 <template>
-    <form @submit.prevent="onSubmitHandler" class="card self-center">
-        <div class="card-content">
-            <p class="card-title">Login</p>
-            <div class="line"/>
-            <div class="input-field">
-                <input
-                    :class="{invalidInput: ($v.email.$dirty && !$v.email.required) || ($v.email.$dirty && !$v.email.email)}"
-                    id="email"
-                    placeholder="Enter your email"
-                    type="text"
-                    v-model.trim="email"
-                >
-                <small
-                    class="error invalid"
-                    v-if="$v.email.$dirty && !$v.email.required"
-                >
-                    Enter Email Address!
-                </small>
-                <small
-                    class="error invalid"
-                    v-else-if="$v.email.$dirty && !$v.email.email"
-                >
-                    Invalid Email!
-                </small>
+    <div class="loginContainer">
+        <form @submit.prevent="onSubmitHandler" class="card self-center">
+            <div class="card-content">
+                <p class="card-title">Login</p>
+                <div class="line"/>
+                <div class="input-field">
+                    <input
+                        :class="{invalidInput: ($v.email.$dirty && !$v.email.required) || ($v.email.$dirty && !$v.email.email)}"
+                        id="email"
+                        placeholder="Enter your email"
+                        type="text"
+                        v-model.trim="email"
+                    >
+                    <small
+                        class="error invalid"
+                        v-if="$v.email.$dirty && !$v.email.required"
+                    >
+                        Enter Email Address!
+                    </small>
+                    <small
+                        class="error invalid"
+                        v-else-if="$v.email.$dirty && !$v.email.email"
+                    >
+                        Invalid Email!
+                    </small>
+                </div>
+                <div class="input-field">
+                    <input
+                        :class="{invalidInput: ($v.password.$dirty && !$v.password.required) || ($v.password.$dirty && !$v.password.minLength)}"
+                        :type="[toggleShowPassword ? 'text' : 'password']"
+                        id="password"
+                        placeholder="Enter your password"
+                        v-model.trim="password"
+                    >
+                    <img @mousedown="() => toggleShowPasswordHandler('down')"
+                         @mouseup="() => toggleShowPasswordHandler('up')"
+                         class="eye"
+                         src="../assets/eye.png"
+                         v-if="toggleShowPassword"
+                    />
+                    <img @mousedown="() => toggleShowPasswordHandler('down')"
+                         @mouseup="() => toggleShowPasswordHandler('up')"
+                         class="eye"
+                         src="../assets/eye-close.png"
+                         v-else
+                    />
+                    <small
+                        class="error invalid"
+                        v-if="$v.password.$dirty && !$v.password.required"
+                    >
+                        Enter Password!
+                    </small>
+                    <small
+                        class="error invalid"
+                        v-else-if="$v.password.$dirty && !$v.password.minLength"
+                    >
+                        Minimum length must be {{$v.password.$params.minLength.min}} symbol! Now length is
+                        {{password.length}}
+                    </small>
+                </div>
             </div>
-            <div class="input-field">
-                <input
-                    :class="{invalidInput: ($v.password.$dirty && !$v.password.required) || ($v.password.$dirty && !$v.password.minLength)}"
-                    :type="[toggleShowPassword ? 'text' : 'password']"
-                    id="password"
-                    placeholder="Enter your password"
-                    v-model.trim="password"
+            <div class="card-action">
+                <p class="text purpleText forgotPassword">
+                    <router-link to="/forgot-password">Forgot password?</router-link>
+                </p>
+                <Button
+                    btnClass="auth-submit"
+                    btnType="submit"
                 >
-                <img @mousedown="() => toggleShowPasswordHandler('down')"
-                     @mouseup="() => toggleShowPasswordHandler('up')"
-                     class="eye"
-                     src="../assets/eye.png"
-                     v-if="toggleShowPassword"
-                />
-                <img @mousedown="() => toggleShowPasswordHandler('down')"
-                     @mouseup="() => toggleShowPasswordHandler('up')"
-                     class="eye"
-                     src="../assets/eye-close.png"
-                     v-else
-                />
-                <small
-                    class="error invalid"
-                    v-if="$v.password.$dirty && !$v.password.required"
-                >
-                    Enter Password!
-                </small>
-                <small
-                    class="error invalid"
-                    v-else-if="$v.password.$dirty && !$v.password.minLength"
-                >
-                    Minimum length must be {{$v.password.$params.minLength.min}} symbol! Now length is
-                    {{password.length}}
-                </small>
+                    Log in
+                </Button>
+                <p class="text newAccount">
+                    <router-link to="/signUp">Create new Account</router-link>
+                </p>
             </div>
-        </div>
-        <div class="card-action">
-            <p class="text purpleText forgotPassword">
-                <router-link to="/forgot-password">Forgot password?</router-link>
-            </p>
-            <Button
-                btnClass="auth-submit"
-                btnType="submit"
-            >
-                Log in
-            </Button>
-            <p class="text newAccount">
-                <router-link to="/signUp">Create new Account</router-link>
-            </p>
-        </div>
-    </form>
+        </form>
+    </div>
 </template>
 
 <script>
@@ -132,6 +134,12 @@
 </script>
 
 <style lang="scss" scoped>
+
+    .loginContainer {
+        position: relative;
+        width: 100%;
+        height: 100%;
+    }
 
     html {
         .forgotPassword {

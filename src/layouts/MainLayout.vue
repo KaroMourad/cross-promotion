@@ -21,8 +21,9 @@
 
 <style scoped>
     .main-layout {
-        width: 100vw;
-        height: 100vh;
+        width: 100%;
+        height: 100%;
         background: var(--main-bg-color);
+        overflow: hidden;
     }
 </style>

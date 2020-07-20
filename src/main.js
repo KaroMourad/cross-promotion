@@ -17,7 +17,6 @@ Vue.use(Vuelidate);
 Vue.component('Loader', Loader);
 
 
-
 /********* firebase *********/
 
 firebase.initializeApp({
@@ -33,7 +32,7 @@ firebase.initializeApp({
 
 let app;
 
-firebase.auth().onAuthStateChanged(() =>
+firebase.auth().onAuthStateChanged(user =>
 {
     if (!app)
     {
@@ -42,6 +41,11 @@ firebase.auth().onAuthStateChanged(() =>
             store,
             render: (h) => h(App),
         }).$mount('#app');
+    }
+
+    if (user)
+    {
+        store.dispatch('getUserInfo')
     }
 });
 

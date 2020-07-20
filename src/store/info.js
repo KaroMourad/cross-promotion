@@ -25,7 +25,6 @@ export default {
                 {
                     const info = await db.collection('users').doc(`${uid}`).get();
                     const infoData = info.data();
-                    console.log("infoData", infoData)
                     commit('setInfo', infoData);
                 }
             } catch (e)
@@ -38,5 +37,4 @@ export default {
     getters: {
         info: state => state.info
     }
-
 }
