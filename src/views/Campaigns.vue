@@ -1,5 +1,5 @@
 <template>
-    <div class="campaignsContainer">
+    <div class="main">
         <div class="actions">
             <Button
                 @onClick="onCreateHandler"
@@ -9,13 +9,17 @@
             </Button>
             <Button
                 @onClick="onLogoutHandler"
+                btn-type="href"
                 btnClass="logoutButton"
             >
                 Logout
             </Button>
         </div>
-        <div class="campaigns">
-            <Campaign :key="campaign.id" v-bind:data="campaign" v-for="campaign in campaigns"/>
+        <div class="campaignsContainer">
+            <Loader v-if="loading"/>
+            <div class="campaigns" v-else>
+                <Campaign :key="campaign.id" v-bind:data="campaign" v-for="campaign in campaigns"/>
+            </div>
         </div>
     </div>
 </template>
@@ -31,25 +35,19 @@
             Campaign
         },
         data: () => ({
-            campaigns: [
-                {
-                    id: 1,
-                    imageUrl: 'assets/image.png',
-                    backers: 29441,
-                    title: 'Varram'
-                },
-                {
-                    id: 2,
-                    imageUrl: 'assets/Bristly_Backbone-Branding_2.png',
-                    backers: 29441,
-                    title: 'Bristly'
-                }
-            ]
+            loading: true,
+            campaigns: null
         }),
+        async mounted()
+        {
+            // this.campaigns = await this.$store.dispatch('fetchCampaigns');
+            this.loading = false;
+        },
         methods: {
             onCreateHandler(e)
             {
                 console.log('create campaign', e);
+                this.$router.push('/create-campaign');
             },
             async onLogoutHandler()
             {
@@ -60,10 +58,17 @@
     };
 </script>
 
-<style lang="scss" scoped>
-    .campaignsContainer {
+<style scoped>
+    .main {
+        width: 100%;
+        height: 100%;
         padding: 40px;
         text-align: left;
+    }
+
+    .campaignsContainer {
+        width: 100%;
+        height: calc(100% - 48px);
     }
 
     .actions {
@@ -72,31 +77,10 @@
 
     .createButton {
         width: 150px;
-        height: 48px;
-        color: white;
-        background: #727CF5;
-        font-style: normal;
-        font-weight: bold;
-        font-size: 16px;
-        line-height: 23px;
-        text-align: center;
-        letter-spacing: 0.056px;
-        border-radius: 5px;
-        border: none;
     }
 
     .logoutButton {
         width: 150px;
-        height: 48px;
-        color: #727CF5;
-        background: transparent;
-        font-style: normal;
-        font-weight: bold;
-        font-size: 16px;
-        line-height: 23px;
-        text-align: center;
-        letter-spacing: 0.056px;
-        border-radius: 5px;
-        border: none;
+        color: var(--main-color);
     }
 </style>

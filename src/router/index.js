@@ -1,14 +1,13 @@
 import Vue from 'vue';
 import VueRouter from 'vue-router';
-import Home from '../views/Home';
 
 Vue.use(VueRouter);
 
 const routes = [
     {
+        exact: true,
         path: '/',
-        name: 'Home',
-        component: Home,
+        redirect: '/signUp'
     },
     {
         path: '/signUp',
@@ -27,6 +26,12 @@ const routes = [
         name: 'Campaigns',
         meta: {layout: 'main'},
         component: () => import('../views/Campaigns'),
+    },
+    {
+        path: '/create-campaign',
+        name: 'create-campaign',
+        meta: {layout: 'empty'},
+        component: () => import('../views/CreateCampaign'),
     }
 ];
 

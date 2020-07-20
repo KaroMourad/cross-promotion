@@ -32,7 +32,18 @@
                     placeholder="Enter your password"
                     v-model.trim="password"
                 >
-                <img @click="toggleShowPassword = !toggleShowPassword" class="eye" src="../assets/eye.png"/>
+                <img @mousedown="() => toggleShowPasswordHandler('down')"
+                     @mouseup="() => toggleShowPasswordHandler('up')"
+                     class="eye"
+                     src="../assets/eye.png"
+                     v-if="toggleShowPassword"
+                />
+                <img @mousedown="() => toggleShowPasswordHandler('down')"
+                     @mouseup="() => toggleShowPasswordHandler('up')"
+                     class="eye"
+                     src="../assets/eye-close.png"
+                     v-else
+                />
                 <small
                     class="error invalid"
                     v-if="$v.password.$dirty && !$v.password.required"
@@ -90,6 +101,10 @@
             }
         },
         methods: {
+            toggleShowPasswordHandler(type)
+            {
+                this.toggleShowPassword = !!(type === "down");
+            },
             async onSubmitHandler()
             {
                 if (this.$v.$invalid)
@@ -118,43 +133,30 @@
 
 <style lang="scss" scoped>
 
-    .invalid {
-        color: red;
-        display: block;
-        text-align: left;
-        padding: 4px 10px;
-    }
+    html {
+        .forgotPassword {
+            margin-top: 0;
+            text-align: right;
+            font-size: 13px;
+            display: block;
+        }
 
-    html .invalidInput, html .invalidInput:focus {
-        border: 1px solid red !important;
-        outline: none;
-    }
+        .newAccount {
+            margin: 30px 0;
+            font-size: 13px;
+        }
 
+        .info {
+            font-size: 13px;
+        }
 
-    .error {
-        position: absolute;
-        background: white;
-        right: 20px;
-        border: 1px solid red;
-        border-radius: 5px;
-        top: -11px;
-        font-size: 11px;
+        .purpleText {
+            color: var(--main-color);
+        }
     }
 
     .hidden {
         display: none;
-    }
-
-    html .forgotPassword {
-        margin-top: 0;
-        text-align: right;
-        font-size: 13px;
-        display: block;
-    }
-
-    html .newAccount {
-        margin: 30px 0;
-        font-size: 13px;
     }
 
     .eye {
@@ -164,31 +166,8 @@
         transform: translateY(-50%);
     }
 
-    html .info {
-        font-size: 13px;
-    }
-
-    html .purpleText {
-        color: #727CF5;
-    }
-
     .auth-submit {
-        border: none;
-        margin: 10px 0;
-        display: inline-flex;
-        align-items: center;
-        justify-content: center;
-        background: #727CF5;
-        border-radius: 5px;
-        color: white;
-        font-style: normal;
-        font-weight: bold;
-        font-size: 16px;
-        line-height: 23px;
-        text-align: center;
-        letter-spacing: 0.056px;
         width: 100%;
-        height: 48px;
     }
 
     .input-field {
@@ -198,7 +177,7 @@
         position: relative;
 
         input {
-            border: 1px solid #C7C4C4;
+            border: 1px solid var(--main-border-color);
             box-sizing: border-box;
             border-radius: 5px;
             height: 48px;
@@ -218,21 +197,6 @@
             opacity: 0.8;
             font-size: 13px;
         }
-    }
-
-    .line {
-        background: #D6DDE3;
-        width: 100%;
-        height: 1px;
-        margin: 30px 0;
-        display: inline-block;
-    }
-
-    .self-center {
-        position: absolute;
-        left: 50%;
-        top: 50%;
-        transform: translate(-50%, -50%);
     }
 
     .card {

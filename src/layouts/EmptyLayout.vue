@@ -8,6 +8,6 @@
     .empty-layout {
         width: 100vw;
         height: 100vh;
-        background: radial-gradient(205.56% 311.83% at 34.65% -3.04%, rgba(0, 0, 0, 0) 0%, rgba(0, 0, 0, 0.47) 100%), radial-gradient(87.1% 348.28% at 26.22% 31.96%, #4425C1 0%, #2D32A9 100%), #4326B8;;
+        background: var(--empty-bg-color);
     }
 </style>

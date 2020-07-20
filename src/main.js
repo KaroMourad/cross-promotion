@@ -4,6 +4,7 @@ import App from './App.vue';
 import './registerServiceWorker';
 import router from './router';
 import store from './store';
+import Loader from './components/Loader';
 
 import firebase from 'firebase/app';
 import 'firebase/auth';
@@ -13,6 +14,9 @@ import 'firebase/firestore';
 Vue.config.productionTip = false;
 
 Vue.use(Vuelidate);
+Vue.component('Loader', Loader);
+
+
 
 /********* firebase *********/
 

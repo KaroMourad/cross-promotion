@@ -49,7 +49,18 @@
                     placeholder="Enter your password"
                     v-model.trim="password"
                 >
-                <img @click="toggleShowPassword = !toggleShowPassword" class="eye" src="../assets/eye.png"/>
+                <img @mousedown="() => toggleShowPasswordHandler('down')"
+                     @mouseup="() => toggleShowPasswordHandler('up')"
+                     class="eye"
+                     src="../assets/eye.png"
+                     v-if="toggleShowPassword"
+                />
+                <img @mousedown="() => toggleShowPasswordHandler('down')"
+                     @mouseup="() => toggleShowPasswordHandler('up')"
+                     class="eye"
+                     src="../assets/eye-close.png"
+                     v-else
+                />
                 <small
                     class="error invalid"
                     v-if="$v.password.$dirty && !$v.password.required"
@@ -96,7 +107,7 @@
             toggleShowPassword: false,
             email: '',
             password: '',
-            name: '',
+            name: ''
         }),
         validations: {
             email: {
@@ -112,6 +123,10 @@
             }
         },
         methods: {
+            toggleShowPasswordHandler(type)
+            {
+                this.toggleShowPassword = !!(type === "down");
+            },
             async onSubmitHandler()
             {
                 if (this.$v.$invalid)
@@ -148,9 +163,25 @@
         padding: 4px 10px;
     }
 
-    html .invalidInput, html .invalidInput:focus {
-        border: 1px solid red !important;
-        outline: none;
+    html {
+        .invalidInput, .invalidInput:focus {
+            border: 1px solid red;
+            outline: none;
+        }
+
+        .termsConditions {
+            text-align: left;
+            font-size: 13px;
+        }
+
+        .haveAccount {
+            margin-top: 40px;
+            font-size: 13px;
+        }
+
+        .purpleText {
+            color: var(--main-color);
+        }
     }
 
     .error {
@@ -167,16 +198,6 @@
         display: none;
     }
 
-    html .termsConditions {
-        text-align: left;
-        font-size: 13px;
-    }
-
-    html .haveAccount {
-        margin-top: 40px;
-        font-size: 13px;
-    }
-
     .eye {
         position: absolute;
         top: 50%;
@@ -184,28 +205,8 @@
         transform: translateY(-50%);
     }
 
-    html .purpleText {
-        color: #727CF5;
-    }
-
     .auth-submit {
-        border: none;
-        margin: 10px 0;
-        display: inline-flex;
-        align-items: center;
-        justify-content: center;
-        background: #727CF5;
-        border-radius: 5px;
-        color: white;
-        font-style: normal;
-        font-weight: bold;
-        font-size: 16px;
-        line-height: 23px;
-        text-align: center;
-        letter-spacing: 0.056px;
-        color: #FFFFFF;
         width: 100%;
-        height: 48px;
     }
 
     .input-field {
@@ -215,7 +216,7 @@
         position: relative;
 
         input {
-            border: 1px solid #C7C4C4;
+            border: 1px solid var(--main-border-color);
             box-sizing: border-box;
             border-radius: 5px;
             height: 48px;
@@ -235,21 +236,6 @@
             opacity: 0.8;
             font-size: 13px;
         }
-    }
-
-    .line {
-        background: #D6DDE3;
-        width: 100%;
-        height: 1px;
-        margin: 20px 0;
-        display: inline-block;
-    }
-
-    .self-center {
-        position: absolute;
-        left: 50%;
-        top: 50%;
-        transform: translate(-50%, -50%);
     }
 
     .card {
