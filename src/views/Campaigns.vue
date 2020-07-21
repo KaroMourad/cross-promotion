@@ -19,10 +19,11 @@
             <Loader v-if="loading"/>
             <div class="campaigns" v-else>
                 <Campaign
+                    :data="campaign"
                     :key="campaign.id"
-                    :onDelete="onDeleteCampaignHandler"
-                    v-bind:data="campaign"
-                    v-for="campaign in this.campaigns"
+                    @change="onChangeDataHandler"
+                    @delete="onDeleteCampaignHandler"
+                    v-for="campaign in campaignsArray"
                 />
             </div>
         </div>
@@ -39,6 +40,12 @@
             Button,
             Campaign
         },
+        computed: {
+            campaignsArray()
+            {
+                return this.campaigns;
+            }
+        },
         data: () => ({
             loading: true,
             campaigns: null
@@ -49,6 +56,15 @@
             this.loading = false;
         },
         methods: {
+            onChangeDataHandler({data, id})
+            {
+                const index = this.campaigns.findIndex(campaign => campaign.id === id);
+
+                Object.keys(data).forEach(key =>
+                {
+                    this.campaigns[index][key] = data[key];
+                });
+            },
             onDeleteCampaignHandler(id)
             {
                 this.campaigns = this.campaigns.filter(campaign => campaign.id !== id)

@@ -25,8 +25,8 @@ export default {
                 await firebase.auth().createUserWithEmailAndPassword(email, password);
 
                 const uid = await dispatch('getUid');
-
                 const db = firebase.firestore();
+
                 await db.collection('users').doc(`${uid}`).set({name});
             } catch (err)
             {

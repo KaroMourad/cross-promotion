@@ -9,39 +9,46 @@ export default {
                 const uid = await dispatch('getUid');
                 const db = firebase.firestore();
 
-                const querySnapshot = await db.collection('users').doc(`${uid}`).collection('campaigns').get();
+                const querySnapshot = await db
+                    .collection('users')
+                    .doc(`${uid}`)
+                    .collection('campaigns')
+                    .orderBy("created_at", 'desc')
+                    .get();
 
                 const campaignsData = [];
-                querySnapshot.forEach(function (doc)
-                {
-                    campaignsData.push({...doc.data(), id: doc.id});
-                });
-                const sortedCampaignsData = campaignsData.sort((a, b) => b.created_at - a.created_at);
-                return [...sortedCampaignsData];
+                querySnapshot.forEach(campaign => campaignsData.push({...campaign.data(), id: campaign.id}));
+
+                return campaignsData;
             } catch (e)
             {
                 console.log("err", e);
                 throw e;
             }
-        },
+        }
+        ,
         async createCampaign({dispatch}, objToCreate)
         {
             try
             {
                 const uid = await dispatch('getUid');
                 const db = firebase.firestore();
-                const docRef = await db.collection('users').doc(`${uid}`).collection('campaigns').add({
-                    ...objToCreate,
-                    created_at: Date.now()
-                });
-                const campaign = await docRef.get();
-                const data = campaign.data();
+                const docRef = await db
+                    .collection('users')
+                    .doc(`${uid}`)
+                    .collection('campaigns')
+                    .add({
+                        ...objToCreate,
+                        created_at: Date.now()
+                    });
+
+                const campaign = (await docRef.get()).data();
 
                 return {
-                    title: data.title,
-                    imgData: data.imgData,
-                    suggestion: data.suggestion,
-                    site: data?.site,
+                    title: campaign.title,
+                    imgData: campaign.imgData,
+                    suggestion: campaign.suggestion,
+                    site: campaign?.site,
                     id: docRef.id
                 };
             } catch (e)
@@ -49,21 +56,47 @@ export default {
                 console.log("err", e);
                 throw e;
             }
-        },
-        async removeCampaign({dispatch}, id)
+        }
+        ,
+        async deleteCampaign({dispatch}, id)
         {
             try
             {
                 const uid = await dispatch('getUid');
                 const db = firebase.firestore();
 
-                await db.collection('users').doc(`${uid}`).collection('campaigns').doc(id).delete();
-                console.log("removed")
+                await db
+                    .collection('users')
+                    .doc(`${uid}`)
+                    .collection('campaigns')
+                    .doc(id)
+                    .delete();
             } catch (e)
             {
                 console.log("err", e);
                 throw e;
             }
-        },
+        }
+        ,
+        async updateCampaign({dispatch}, {id, data})
+        {
+            try
+            {
+                const uid = await dispatch('getUid');
+                const db = firebase.firestore();
+
+                await db
+                    .collection('users')
+                    .doc(`${uid}`)
+                    .collection('campaigns')
+                    .doc(id)
+                    .update(data);
+            } catch (e)
+            {
+                console.log("err", e);
+                throw e;
+            }
+        }
+        ,
     }
 }

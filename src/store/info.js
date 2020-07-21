@@ -21,11 +21,11 @@ export default {
             {
                 const uid = await dispatch('getUid');
                 const db = firebase.firestore();
+
                 if (uid)
                 {
-                    const info = await db.collection('users').doc(`${uid}`).get();
-                    const infoData = info.data();
-                    commit('setInfo', infoData);
+                    const info = (await db.collection('users').doc(`${uid}`).get()).data();
+                    commit('setInfo', info);
                 }
             } catch (e)
             {
