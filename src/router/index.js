@@ -33,6 +33,10 @@ const routes = [
         name: 'create-campaign',
         meta: {layout: 'empty', requiresAuth: true},
         component: () => import('../views/CreateCampaign'),
+    },
+    {
+        path: '*',
+        redirect: '/login'
     }
 ];
 
